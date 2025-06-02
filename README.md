@@ -78,8 +78,7 @@ DLCV-Final-Project
 
         Example:
             - In the dataset.py
-            
-                ```
+
                 register_coco_instances(
                     "sartorius_Cell_train",
                     {},
@@ -93,7 +92,6 @@ DLCV-Final-Project
                     "crossvalidationfold5/coco_cell_valid_fold1.json", # modify it to your dataset path
                     str(data_dir) # modify it to your dataset path
                 )
-                ```
 
 6. Upload the result
     Step 1: You need to upload Submission.ipynb notebook to Kaggle
