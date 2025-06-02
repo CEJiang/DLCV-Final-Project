@@ -78,20 +78,21 @@ DLCV-Final-Project
 
         Example:
             - In the dataset.py
+            ```
+            register_coco_instances(
+                "sartorius_Cell_train",
+                {},
+                "sartorius_patched_5fold/annotations_train_patched_fold1.json", # modify it to your dataset path
+                "sartorius_patched_5fold/train_images_fold1" # modify it to your dataset path
+            )
 
-                register_coco_instances(
-                    "sartorius_Cell_train",
-                    {},
-                    "sartorius_patched_5fold/annotations_train_patched_fold1.json", # modify it to your dataset path
-                    "sartorius_patched_5fold/train_images_fold1" # modify it to your dataset path
-                )
-
-                register_coco_instances(
-                    "sartorius_Cell_valid",
-                    {},
-                    "crossvalidationfold5/coco_cell_valid_fold1.json", # modify it to your dataset path
-                    str(data_dir) # modify it to your dataset path
-                )
+            register_coco_instances(
+                "sartorius_Cell_valid",
+                {},
+                "crossvalidationfold5/coco_cell_valid_fold1.json", # modify it to your dataset path
+                str(data_dir) # modify it to your dataset path
+            )
+            ```
 
 6. Upload the result
     Step 1: You need to upload Submission.ipynb notebook to Kaggle
