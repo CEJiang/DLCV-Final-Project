@@ -31,14 +31,18 @@ pip install -r requirements.txt
 - You can download the dataset from the competitions
 - Place it in the following structure
 ```
-NYCU-Computer-Vision-2025-Spring-HW4
-├── hw4_release_dataset
-│   ├── train
-│   └── test
-├── environment.yml
-├── main.py
-├── train.py
-├── test.py
+DLCV-Final-Project
+├── sartorius-cell-instance-segmentation/
+│   ├── LIVECell_dataset_2021/
+│   ├── train/
+│   ├── test/
+│   .
+│   .
+│   .
+├── requirements.txt
+├── Submission.ipynb
+├── Cellpose/
+├── Detectron2/
 .
 .
 .
@@ -116,6 +120,7 @@ NYCU-Computer-Vision-2025-Spring-HW4
 | Criterion        | `Flow Loss` + `Cellprob Loss`                                                                           |
 
 - Detectron2
+
 | Parameter        | Value                                                                                                   |
 |------------------|---------------------------------------------------------------------------------------------------------|
 | Pretrained Weight| model_zoo pretrained model(Train LIVECell)                                                              |
