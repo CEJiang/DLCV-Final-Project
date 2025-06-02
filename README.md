@@ -58,41 +58,44 @@ DLCV-Final-Project
     ```
 
 5. Run for Train
-    1. Train Cellpose Model 
-        Step 1: Open Cellpose main.py to adjust datapath 
-    
-        Example: 
-            ```
-            train_loader, valid_loader = load_data(
-            train_data_dir='Cellpose_5fold_train/fold1', # modify it to your dataset path
-            valid_data_dir='Cellpose_5fold_valid/fold1', # modify it to your dataset path
-            args=args)
-            ```
+    1. **Train Cellpose Model**
 
-        Step 2: Run the program
+        **Step 1:** Open `Cellpose/main.py` to adjust datapath  
+
+        Example:  
+        ```python
+        train_loader, valid_loader = load_data(
+            train_data_dir='Cellpose_5fold_train/fold1',  # modify to your dataset path
+            valid_data_dir='Cellpose_5fold_valid/fold1',  # modify to your dataset path
+            args=args
+        )
         ```
+
+        **Step 2:** Run the program  
+        ```bash
         python Cellpose/main.py
         ```
-    2. Train Detectron2 Model
-        Step 1: Open Cellpose dataset.py to adjust datapath 
 
-        Example:
-            In the dataset.py
-            ```
-            register_coco_instances(
-                "sartorius_Cell_train",
-                {},
-                "sartorius_patched_5fold/annotations_train_patched_fold1.json", # modify it to your dataset path
-                "sartorius_patched_5fold/train_images_fold1" # modify it to your dataset path
-            )
+    2. **Train Detectron2 Model**
 
-            register_coco_instances(
-                "sartorius_Cell_valid",
-                {},
-                "crossvalidationfold5/coco_cell_valid_fold1.json", # modify it to your dataset path
-                str(data_dir) # modify it to your dataset path
-            )
-            ```
+        **Step 1:** Open `dataset.py` to adjust datapath  
+
+        Example:  
+        ```python
+        register_coco_instances(
+            "sartorius_Cell_train",
+            {},
+            "sartorius_patched_5fold/annotations_train_patched_fold1.json",  # modify to your dataset path
+            "sartorius_patched_5fold/train_images_fold1"  # modify to your dataset path
+        )
+
+        register_coco_instances(
+            "sartorius_Cell_valid",
+            {},
+            "crossvalidationfold5/coco_cell_valid_fold1.json",  # modify to your dataset path
+            str(data_dir)  # modify to your dataset path
+        )
+        ```
 
 6. Upload the result
     Step 1: You need to upload Submission.ipynb notebook to Kaggle
