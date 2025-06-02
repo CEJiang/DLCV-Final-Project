@@ -48,7 +48,7 @@ DLCV-Final-Project
 .
 ```
 4. Preprocessing
-    1. Download the K-fold Cross Validation [LINK] (https://www.kaggle.com/code/ammarnassanalhajali/k-fold-crossvalidation-coco-dataset-generator)
+    1. Download the K-fold Cross Validation [LINK](https://www.kaggle.com/code/ammarnassanalhajali/k-fold-crossvalidation-coco-dataset-generator)
 
     2. Modify handle_cross_validation_to_npy.py to adjust some parameters for your training dataset
 
