@@ -16,18 +16,19 @@ In this competition, we obtained images containing multiple neuronal cells, incl
 
 1. Clone the repository
 ```
-git clone https://github.com/CEJiang/NYCU-Computer-Vision-2025-Spring-HW4.git
-cd NYCU-Computer-Vision-2025-Spring-HW4
+git clone https://github.com/CEJiang/DLCV-Final-Project.git
+cd DLCV-Final-Project
 ```
 
 2. Create and activate conda environment
 ```
-conda env create -f environment.yml
+conda create -n cv python=3.11.11 -y
 conda activate cv
+pip install -r requirements.txt
 ```
 
 3. Download the dataset 
-- You can download the dataset from the provided [LINK](https://drive.google.com/file/d/1bEIU9TZVQa-AF_z6JkOKaGp4wYGnqQ8w)
+- You can download the dataset from the competitions
 - Place it in the following structure
 ```
 NYCU-Computer-Vision-2025-Spring-HW4
@@ -42,49 +43,90 @@ NYCU-Computer-Vision-2025-Spring-HW4
 .
 .
 ```
+4. Preprocessing
+    1. Download the K-fold Cross Validation [LINK] (https://www.kaggle.com/code/ammarnassanalhajali/k-fold-crossvalidation-coco-dataset-generator)
 
-4. Run for Train
-    1. Train Model 
+    2. Modify handle_cross_validation_to_npy.py to adjust some parameters for your training dataset
+
+    3. Convert image to .pny format
     ```
-    python main.py DATAPATH [--epochs EPOCH] [--batch_size BATCH_SIZE] [--learning_rate LEARNING_RATE] [--decay DECAY] [--eta_min ETA_MIN] [--saved_path SAVE_FOLDER] [--mode train]
+    python handle_cross_validation_to_npy.py
     ```
-    Example
-    ```
-    python main.py ./hw4_realse_dataset --epochs 80 --batch_size 1 --learning_rate 1e-4 --decay 5e-3 --saved_path saved_models
-    ```
-    2. Test Model
-    ```
-    python main.py DATAPATH --mode test
-    ```
-    Example
-    ```
-    python main.py ./hw4_realse_dataset --mode test
-    ```
+
+5. Run for Train
+    1. Train Cellpose Model 
+        Step 1: Open Cellpose main.py to adjust datapath 
+    
+        Example: 
+            ```
+            train_loader, valid_loader = load_data(
+            train_data_dir='Cellpose_5fold_train/fold1', # modify it to your dataset path
+            valid_data_dir='Cellpose_5fold_valid/fold1', # modify it to your dataset path
+            args=args)
+            ```
+
+        Step 2: Run the program
+        ```
+        python Cellpose/main.py
+        ```
+    2. Train Detectron2 Model
+        Step 1: Open Cellpose dataset.py to adjust datapath 
+
+        Example:
+            - In the dataset.py
+                ```
+                register_coco_instances(
+                    "sartorius_Cell_train",
+                    {},
+                    "sartorius_patched_5fold/annotations_train_patched_fold1.json", # modify it to your dataset path
+                    "sartorius_patched_5fold/train_images_fold1" # modify it to your dataset path
+                )
+
+                register_coco_instances(
+                    "sartorius_Cell_valid",
+                    {},
+                    "crossvalidationfold5/coco_cell_valid_fold1.json", # modify it to your dataset path
+                    str(data_dir) # modify it to your dataset path
+                )
+                ```
+
+6. Upload the result
+    Step 1: You need to upload Submission.ipynb notebook to Kaggle
+
+    Step 2: Upload your model to kaggle datasets
+
+    Step 3: modify the model path and run the test
+
 
 ## Performance snapshot
 ### Training Parameter Configuration
 
+- Cellpose
+
 | Parameter        | Value                                                                                                   |
 |------------------|---------------------------------------------------------------------------------------------------------|
-| Pretrained Weight| None                                                                                                    |
-| Learning Rate    | 0.0001                                                                                                  |
+| Pretrained Weight| cpsam (Train LIVECell)                                                                                  |
+| Learning Rate    | 0.00005                                                                                                 |
 | Batch Size       | 1                                                                                                       |
-| Epochs           | 80                                                                                                      |
-| decay            | 0.005                                                                                                   |
+| Epochs           | 100                                                                                                     |
+| decay            | 0.1                                                                                                     |
 | Optimizer        | AdamW                                                                                                   |
-| Eta_min          | 0.000001                                                                                                |
 | T_max            | 80                                                                                                      |
-| Scheduler        | `CosineAnnealingLR`                                                                                     |
-| ratio            | `0.3` -> `0.7`                                                                                          |
-| Criterion        | `(1 - ratio) * L1 Loss` + `ratio * SSIM Loss`                                                           |
+| Scheduler        | `Linear warmup`                                                                                         |
+| Criterion        | `Flow Loss` + `Cellprob Loss`                                                                           |
 
-### Training Curve
-![Image](https://github.com/CEJiang/NYCU-Computer-Vision-2025-Spring-HW4/blob/main/Image/training_curve.png)
-### PSNR Curve
-![Image](https://github.com/CEJiang/NYCU-Computer-Vision-2025-Spring-HW4/blob/main/Image/psnr_curve.png)
+- Detectron2
+| Parameter        | Value                                                                                                   |
+|------------------|---------------------------------------------------------------------------------------------------------|
+| Pretrained Weight| model_zoo pretrained model(Train LIVECell)                                                              |
+| Learning Rate    | 0.0005                                                                                                  |
+| Batch Size       | 2                                                                                                       |
+| Epochs           | 100                                                                                                     |
+| decay            | 0.1                                                                                                     |
 
+### Individual Losses
+![Image](https://github.com/CEJiang/DLCV-Final-Project/blob/main/Image/individual_losses.png)
+### Total Loss
+![Image](https://github.com/CEJiang/DLCV-Final-Project/blob/main/Image/total_loss.png)
 ### Performance
-|                  | mAP                      |
-|------------------|--------------------------|
-| Validation       | 30.32                    |
-| Public Test      | 31.17                    |
+![Image](https://github.com/CEJiang/DLCV-Final-Project/blob/main/Image/result.jpg)
